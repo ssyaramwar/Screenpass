@@ -101,93 +101,243 @@
 // }
 
 // export default SeatLayout
+// import { ClockIcon } from 'lucide-react'
+// import React, { useEffect, useState } from 'react'
+// import { useNavigate, useParams } from 'react-router-dom'
+
+// import Loading from '../components/Loading'
+// import { dummyShowsData, dummyDateTimeData } from '../assets/assets'
+
+// const SeatLayout = () => {
+
+//   const { id, date } = useParams()
+
+//   const [selectedSeats, setSelectedSeats] = useState([])
+//   const [selectedTime, setSelectedTime] = useState(null)
+//   const [show, setShow] = useState(null)
+
+//   const navigate = useNavigate()
+
+//   const getShow = async () => {
+
+//     const movie = dummyShowsData.find(
+//       show => String(show._id) === String(id)
+//     )
+
+//     if (movie) {
+//       setShow({
+//         movie: movie,
+//         dateTime: dummyDateTimeData
+//       })
+//     }
+//   }
+
+//   useEffect(() => {
+//     getShow()
+//   }, [id])
+
+//   return show ? (
+
+//     <div className='flex flex-col md:flex-row px-6 md:px-16 lg:px-40 py-30 md:pt-50'>
+
+//       {/* Available Timings */}
+
+//       <div className='w-60 bg-primary/10 border border-primary/20 rounded-lg py-10 h-max md:sticky md:top-30'>
+
+//         <p className='text-lg font-semibold px-6'>
+//           Available Timings
+//         </p>
+
+//         <div className='mt-5 space-y-1'>
+
+//           {show.dateTime[date]?.map((item) => (
+
+//             <div
+//               key={item.time}
+//               onClick={() => setSelectedTime(item)}
+//               className={`flex items-center gap-2 px-6 py-2 w-max rounded-r-md cursor-pointer transition ${
+//                 selectedTime?.time === item.time
+//                   ? 'bg-primary text-white'
+//                   : 'hover:bg-primary/20'
+//               }`}
+//             >
+
+//               <ClockIcon className='w-4 h-4' />
+
+//               <p className='text-sm'>
+//                 {item.time}
+//               </p>
+
+//             </div>
+
+//           ))}
+
+//         </div>
+
+//       </div>
+
+//       {/* Seats Layout */}
+
+//       <div>
+
+//       </div>
+
+//     </div>
+
+//   ) : (
+
+//     <Loading />
+
+//   )
+// }
+
+// export default SeatLayout
+
+
+
+
+
+
+
+
 import { ClockIcon } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import Loading from '../components/Loading'
+import { dummyShowsData, dummyDateTimeData } from '../assets/assets'
 
 const SeatLayout = () => {
 
-  const { id, date } = useParams()
+    const { id, date } = useParams()
 
-  const [selectedSeats, setSelectedSeats] = useState([])
-  const [selectedTime, setSelectedTime] = useState(null)
-  const [show, setShow] = useState(null)
+    const [selectedSeats, setSelectedSeats] = useState([])
+    const [selectedTime, setSelectedTime] = useState(null)
+    const [show, setShow] = useState(null)
 
-  const navigate = useNavigate()
+    const navigate = useNavigate()
 
-  const getShow = async () => {
+    const getShow = async () => {
 
-    const movie = dummyShowsData.find(
-      show => String(show._id) === String(id)
-    )
+        const movie = dummyShowsData.find(
+            show => String(show._id) === String(id)
+        )
 
-    if (movie) {
-      setShow({
-        movie: movie,
-        dateTime: dummyDateTimeData
-      })
+        console.log("Movie ID:", id)
+        console.log("Selected Date:", date)
+        console.log("Movie:", movie)
+        console.log("Available timings:", dummyDateTimeData[date])
+
+        if (movie) {
+
+            setShow({
+                movie: movie,
+                dateTime: dummyDateTimeData
+            })
+
+        }
     }
-  }
 
-  useEffect(() => {
-    getShow()
-  }, [id])
+    useEffect(() => {
+        getShow()
+    }, [id, date])
 
-  return show ? (
+    return show ? (
 
-    <div className='flex flex-col md:flex-row px-6 md:px-16 lg:px-40 py-30 md:pt-50'>
+        <div className='flex flex-col md:flex-row px-6 md:px-16 lg:px-40 py-30 md:pt-50'>
 
-      {/* Available Timings */}
+            {/* Available Timings */}
 
-      <div className='w-60 bg-primary/10 border border-primary/20 rounded-lg py-10 h-max md:sticky md:top-30'>
+            <div className='w-60 bg-primary/10 border border-primary/20 rounded-lg py-10 h-max md:sticky md:top-30'>
 
-        <p className='text-lg font-semibold px-6'>
-          Available Timings
-        </p>
+                <p className='text-lg font-semibold px-6'>
+                    Available Timings
+                </p>
 
-        <div className='mt-5 space-y-1'>
+                <div className='mt-5 space-y-1'>
 
-          {show.dateTime[date]?.map((item) => (
+                    {show.dateTime[date]?.map((item) => (
 
-            <div
-              key={item.time}
-              onClick={() => setSelectedTime(item)}
-              className={`flex items-center gap-2 px-6 py-2 w-max rounded-r-md cursor-pointer transition ${
-                selectedTime?.time === item.time
-                  ? 'bg-primary text-white'
-                  : 'hover:bg-primary/20'
-              }`}
-            >
+                        <div
+                            key={item.showId}
+                            onClick={() => setSelectedTime(item)}
+                            className={`flex items-center gap-2 px-6 py-2 w-max rounded-r-md cursor-pointer transition ${
+                                selectedTime?.showId === item.showId
+                                    ? 'bg-primary text-white'
+                                    : 'hover:bg-primary/20'
+                            }`}
+                        >
 
-              <ClockIcon className='w-4 h-4' />
+                            <ClockIcon className='w-4 h-4' />
 
-              <p className='text-sm'>
-                {item.time}
-              </p>
+                            <p className='text-sm'>
+                                {new Date(item.time).toLocaleTimeString(
+                                    'en-IN',
+                                    {
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                    }
+                                )}
+                            </p>
+
+                        </div>
+
+                    ))}
+
+                    {/* No timings */}
+
+                    {!show.dateTime[date]?.length && (
+
+                        <p className='px-6 text-sm text-gray-400'>
+                            No timings available
+                        </p>
+
+                    )}
+
+                </div>
 
             </div>
 
-          ))}
+            {/* Seats Layout */}
+
+            <div className='flex-1 ml-0 md:ml-10 mt-10 md:mt-0'>
+
+                {selectedTime ? (
+
+                    <div>
+                        <h2 className='text-xl font-semibold'>
+                            Select Your Seats
+                        </h2>
+
+                        <p className='text-gray-400 mt-2'>
+                            Show time: {new Date(selectedTime.time).toLocaleTimeString(
+                                'en-IN',
+                                {
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                }
+                            )}
+                        </p>
+                    </div>
+
+                ) : (
+
+                    <p className='text-gray-400'>
+                        Select a show timing to continue.
+                    </p>
+
+                )}
+
+            </div>
 
         </div>
 
-      </div>
+    ) : (
 
-      {/* Seats Layout */}
+        <Loading />
 
-      <div>
-
-      </div>
-
-    </div>
-
-  ) : (
-
-    <Loading />
-
-  )
+    )
 }
 
 export default SeatLayout
+

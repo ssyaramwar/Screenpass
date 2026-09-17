@@ -3,6 +3,7 @@ import BlurCircle from './BlurCircle'
 import { ChevronRightIcon, ChevronLeftIcon } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useState } from "react";
+import toast from 'react-hot-toast'
 
 const DateSelect = ({ dateTime, id }) => {
 
@@ -15,7 +16,7 @@ const DateSelect = ({ dateTime, id }) => {
         if (!selected) {
             return toast("Please select a date first")
         }
-        navigate(`/movie/${id}/${selected}`)
+        navigate(`/movies/${id}/${selected}`)
         scrollTo(0, 0)
 
     }
